@@ -25,7 +25,7 @@
  <!-- **************** -->
  <!-- JSCOLOR PICKER -->
  <!-- **************** -->
- <input type="button" class="jscolor" id="picker" onchange="update(this.jscolor)" onfocusout="apply()" value="<?php echo $default_color ?>">
+ <input type="button" class="jscolor" id="picker" onchange="update(this.jscolor)" value="<?php echo $default_color ?>">
 
 
  <!-- **************** -->
@@ -38,24 +38,23 @@
 
 <?php
   if (isset($_POST['set_default'])) {
-    /*$db = new MyDB();
-    $sql = "UPDATE prep ".
-	   "SET Value = ". $_POST['p'].
-	   " WHERE Name = 'default_color'";
-    $db -> execute();
-    $db -> close();*/
-    echo "true". $_POST['p'];
+    $db = new MyDB();
+    $sql = "UPDATE prep".
+	    " SET Value = '". $_POST['clr']. "'". 
+	    " WHERE Name = 'default_color'";
+    $db -> query($sql);
+    $db -> close();
+    header("Refresh:0");
   } else {
-    //echo $_POST['set_default'];
     echo "false";
   }
 ?>
 
   </form>
+
 <?php
   //$d = exec("python3 /var/www/html/LedController.py ". $default_color);
-  $d = exec("python3 /var/www/html/LedController.py FFFFFF");
-  echo "shell result: ".$d;
+  shell_exec("./LedController.py 00FF00");
 ?>
 
 
