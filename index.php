@@ -13,13 +13,19 @@
 <body class="container">
 
 <?php
-  include "header.php"
+  include "header.php";
+  include "db.php";
+
+  $db = new MyDB();
+  $sql = "SELECT Value FROM prep WHERE (Name == 'default_color')";
+  $default_color = $db -> querySingle($sql);
+  $db -> close();
 ?>
 
  <!-- **************** -->
  <!-- JSCOLOR PICKER -->
  <!-- **************** -->
-  <input type="button" class="jscolor" id="picker" onchange="update(this.jscolor)" onfocusout="apply()" value="EFFFC9">
+ <input type="button" class="jscolor" id="picker" onchange="update(this.jscolor)" onfocusout="apply()" value="<?php echo $default_color ?>">
 
 
  <!-- **************** -->
@@ -27,8 +33,30 @@
  <!-- **************** -->
   <form method="POST">
     <input type="text" id="p" name="clr">
-   	<input type="submit" name="set_default" id="set_default" value="Set as Default">
+    <input type="submit" id="smt" name="set_color" hidden>
+    <input type="submit" name="set_default" id="set_default" value="Set as Default">
+
+<?php
+  if (isset($_POST['set_default'])) {
+    /*$db = new MyDB();
+    $sql = "UPDATE prep ".
+	   "SET Value = ". $_POST['p'].
+	   " WHERE Name = 'default_color'";
+    $db -> execute();
+    $db -> close();*/
+    echo "true". $_POST['p'];
+  } else {
+    //echo $_POST['set_default'];
+    echo "false";
+  }
+?>
+
   </form>
+<?php
+  //$d = exec("python3 /var/www/html/LedController.py ". $default_color);
+  $d = exec("python3 /var/www/html/LedController.py FFFFFF");
+  echo "shell result: ".$d;
+?>
 
 
   <!-- **************** -->

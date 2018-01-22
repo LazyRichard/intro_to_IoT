@@ -7,11 +7,11 @@
 
 </head>
 
-<body>
-
 <?php
   include "header.php"
 ?>
+
+<body>
 
 <input type="button" id="temp-btn" class="btn" value="View Temperature Chart" onclick="drawTemp()">
 <canvas id="temp-chart-long" class="chart" width="900" height="350" hidden></canvas>
@@ -24,28 +24,24 @@
       <tr>
 	<th>Time</th>
 	<th>Temperature</th>
-	<th>Deviation from Average</th>
       </tr>
 
 <?php
-      ini_set('display_errors', 'On');
-      include "db.php"
-      $db = new MyDB();
+  include "db.php";
+  $db = new MyDB();
 
-      $sql =<<<EOF
-SELECT * FROM temp LIMIT 100;
-EOF;
-      $ret = $db -> query($sql);
+  $sql = "SELECT * FROM temp ORDER by ID DESC LIMIT 100";
+  $ret = $db -> query($sql);
 
-      while($row = $ret -> fetchArray(SQLITE3_ASSOC)) {
-        echo "<tr>";
-	echo "<td>". $row['Timestamp']. "</td>";
-	echo "<td>". $row['Value']. "</td>";
-	echo "</tr>";
-      }
+  while($row = $ret -> fetchArray(SQLITE3_ASSOC)) {
+    echo "<tr>";
+    echo "<td>". $row['Timestamp']. "</td>";
+    echo "<td>". $row['Value']. "</td>";
+    echo "</tr>";
+  }
 
-      $db -> close();
-    ?>
+  $db -> close();
+?>
 
     </table>
   </div>
@@ -57,11 +53,9 @@ EOF;
 	<th>Deviation from Average</th>
       </tr>
 
-<!--?php
+<?php
       $db = new MyDB();
-      $sql =<<<EOF
-SELECT * FROM sound LIMIT 100;
-EOF;
+      $sql = "SELECT * FROM sound ORDER by ID DESC LIMIT 100";
       $ret = $db -> query($sql);
       while ($row = $ret -> fetchArray(SQLITE3_ASSOC)) {
 	      echo "<tr>";
@@ -71,15 +65,13 @@ EOF;
       }
 
       $db -> close();
-?-->
+?>
      </table>
   </div>
 
-<!--?php
+<?php
   $db = new MyDB();
-      $sql =<<<EOF
-SELECT * FROM temp LIMIT 25;
-EOF;
+      $sql = "SELECT * FROM temp ORDER by ID DESC LIMIT 25";
       $ret = $db -> query($sql);
       $temperatureX = array();
       $temperatureData = array();
@@ -88,16 +80,30 @@ EOF;
 	    array_push($temperatureData, $row['Value']);
       }
 
-      $db -> close();
+      $sql = "SELECT * FROM sound ORDER by ID DESC LIMIT 25";
+      $ret = $db -> query($sql);
+      $audioX = array();
+      $audioData = array();
+      while ($row = $ret -> fetchArray(SQLITE3_ASSOC)) {
+        array_push($audioX, $row['Timestamp']);
+	array_push($audioData, $row['Audio']);
+      }
 
-  
-      echo "<script>";
-      echo "var temperatureData = ". $temperatureData;
-      echo "var temperatureX = ". $temperatureX;
-      echo "</script>";
-//      echo "temperatureX = ". $temperatureX;
-//      echo "temperatureData = ". $temperatureData;
-?-->
+    $db -> close();
+
+    $js_tempX = json_encode($temperatureX);
+    $js_tempData = json_encode($temperatureData);
+    $js_audioX = json_encode($audioX);
+    $js_audioData = json_encode($audioData);
+
+    echo "<script type='text/javascript'>";
+    echo "var temperatureX = ". $js_tempX. ";\n";
+    echo "var temperatureData = ". $js_tempData. ";\n";
+    echo "var audioX = ". $js_audioX. ";\n";
+    echo "var audioData = ". $js_audioData. ";\n";
+    echo "</script>";
+
+?>
 
 </body>
 
