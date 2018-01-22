@@ -69,10 +69,10 @@ function drawSound() {
         soundChart = new Chart(soundCtx, {
             type: 'line',
             data: {
-                labels: temperatureX,
+                labels: audioX,
                 datasets: [{
-                    label: 'Temperature Readings',
-                    data: temperatureData,
+                    label: 'Audio Readings',
+                    data: audioData,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
