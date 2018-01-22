@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>AmbiLamp</title>
+    <script src="assets/js/jscolor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/Ambilamp.css">
+
+
+</head>
+
+<body class="container">
+
+<?php
+  include "header.php"
+
+  if (isset($_POST['set_Default'])) {
+    $color_data -> insert($_POST['color']);
+  }
+
+  shell_exec("python3 ./LedController.py ". $color_data);
+
+?>
+
+ <!-- **************** -->
+ <!-- JSCOLOR PICKER -->
+ <!-- **************** -->
+  <input type="button" class="jscolor" id="picker" onchange="update(this.jscolor)" onfocusout="apply()" value="EFFFC9">
+
+
+ <!-- **************** -->
+ <!-- LED FORM -->
+ <!-- **************** -->
+  <form method="POST">
+    <input type="text" id="p" name="clr">
+   	<input type="submit" name="set_default" id="set_default" value="Set as Default">
+  </form>
+
+
+  <!-- **************** -->
+  <!-- CHARTS -->
+  <!-- **************** -->
+
+  <div class="chart-container">
+  	<canvas id="temp-chart" class="chart" width="550" height="350"></canvas>
+  	<canvas id="sound-chart" class="chart" width="550" height="350"></canvas>
+  </div>
+
+
+ <!-- **************** -->
+ <!-- ABOUT -->
+ <!-- **************** -->
+  <div id="about">
+  	<h1>About</h1>
+  	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse auctor lorem at lectus porta, ac lobortis neque condimentum. Nullam felis lorem, fringilla vel dui vitae, auctor efficitur urna. Aliquam ac justo pulvinar, hendrerit leo non, aliquam dolor. Quisque vestibulum fringilla placerat. Aliquam dapibus dictum eros, eget pulvinar magna elementum a. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Praesent condimentum non nibh eu congue. Aliquam a arcu mollis, lobortis orci vel, aliquet risus. Ut eu nibh in turpis ullamcorper elementum vitae id lectus. Nam congue commodo libero, et dapibus massa volutpat quis.</p>
+
+	<p>Nam tincidunt ante turpis, non rhoncus magna semper sit amet. Cras semper blandit magna a aliquam. Etiam laoreet mi sit amet ullamcorper pellentesque. Ut et cursus nulla, sit amet pharetra purus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla gravida laoreet placerat. Phasellus congue lacinia justo id aliquet. Cras nunc lorem, laoreet a justo nec, blandit efficitur ligula. Cras turpis ante, lobortis in mauris vitae, iaculis molestie odio. Duis finibus, quam cursus fringilla gravida, leo sapien sollicitudin turpis, vitae tempor lorem nisi sed lacus. Donec suscipit, sapien eget egestas dictum, dolor augue scelerisque elit, sed scelerisque lorem erat vitae lectus.</p>
+
+	<p>Fusce in leo at turpis mollis tempus. Maecenas molestie condimentum ligula id ultrices. Quisque ut mauris nec quam bibendum vehicula eu ut massa. Donec nisl sapien, euismod convallis magna quis, ornare aliquam lacus. Nunc bibendum laoreet eros sit amet convallis. Quisque ut leo vestibulum, aliquet dolor in, pellentesque lectus. Vivamus sed auctor lectus. Cras dapibus, turpis in fermentum accumsan, mi purus iaculis eros, a sagittis arcu urna nec lorem.</p>
+
+	<p>Aenean sit amet neque quis urna semper malesuada ut cursus quam. In est tellus, ultricies id rutrum sit amet, pretium a nulla. Integer ut nunc tincidunt, commodo nunc ac, tincidunt lectus. Praesent blandit purus tortor, quis lacinia neque aliquet ullamcorper. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer semper ac nulla sed vulputate. Donec nunc est, maximus sed dictum ac, interdum vel est. Aenean feugiat lorem sit amet odio facilisis, vel ullamcorper elit aliquet.</p>
+
+	<p>Etiam a faucibus ex, et vulputate velit. Phasellus ac urna at urna porttitor cursus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam pretium augue a purus pretium porttitor. Etiam venenatis bibendum ipsum eget faucibus. Fusce ac commodo nisi, quis laoreet augue. Sed non est eget ex ultrices posuere. Nulla id orci orci. Fusce nec lacinia nibh. Phasellus cursus sapien sit amet lectus fermentum, vitae ornare quam semper. Phasellus vitae ipsum pretium, tristique arcu ut, molestie orci. Quisque at dapibus magna. In magna nisi, tristique ut lectus a, sodales varius elit. Mauris rutrum est nibh, eget mattis massa auctor eget. Proin suscipit magna tellus, nec vehicula felis porttitor sit amet. Nunc ut diam dui.</p>
+  </div>
+
+
+  <!-- **************** -->
+  <!-- ABOUT -->
+  <!-- **************** -->
+  <footer>
+  	
+  </footer>
+
+</body>
+
+<script type="text/javascript" src="assets/js/Ambilamp.js"></script>
+
+</html>

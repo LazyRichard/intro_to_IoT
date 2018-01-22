@@ -15,11 +15,23 @@
 <?php
   include "header.php";
   include "db.php";
+  include "GPIO.php";
 
   $db = new MyDB();
   $sql = "SELECT Value FROM prep WHERE (Name == 'default_color')";
   $default_color = $db -> querySingle($sql);
   $db -> close();
+
+  $red = new GPIO(22, "out", 4);
+  $green = new GPIO(27, "out", 3);
+  $blue = new GPIO(17, "out", 1);
+  $colorArray = str_split($default_color);
+
+  print_r($default_color);
+  print_r($colorArray);
+  $red -> pwm_write(255 - hexdec($colorArray[0].$colorArray[1]));
+  $green -> pwm_write(255 - hexdec($colorArray[2].$colorArray[3]));
+  $blue -> pwm_write(255 - hexdec($colorArray[4].$colorArray[5]));
 ?>
 
  <!-- **************** -->
@@ -54,7 +66,8 @@
 
 <?php
   //$d = exec("python3 /var/www/html/LedController.py ". $default_color);
-  shell_exec("./LedController.py 00FF00");
+  system("python3 /var/www/html/LedController.py 00FF00");
+  exec("./LedController.py 00FF00");
 ?>
 
 

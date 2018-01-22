@@ -50,7 +50,6 @@
       <tr>
         <th>Time</th>
 	<th>Amplitude</th>
-	<th>Deviation from Average</th>
       </tr>
 
 <?php

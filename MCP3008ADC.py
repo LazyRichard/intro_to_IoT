@@ -1,3 +1,4 @@
+from Adafruit_MCP3008 import MCP3008
 import Adafruit_GPIO.SPI as SPI
 
 class MCP3008ADC:
