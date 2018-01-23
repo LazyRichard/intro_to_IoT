@@ -17,6 +17,18 @@
   include "db.php";
   include "GPIO.php";
 
+  if (isset($_POST['set_default'])) {
+    $db = new MyDB();
+    $sql = "UPDATE prep".
+	    " SET Value = '". $_POST['clr']. "'". 
+	    " WHERE Name = 'default_color'";
+    $db -> query($sql);
+    $db -> close();
+    //header("Refresh:0");
+  } else {
+    echo "false";
+  }
+
   $db = new MyDB();
   $sql = "SELECT Value FROM prep WHERE (Name == 'default_color')";
   $default_color = $db -> querySingle($sql);
@@ -26,6 +38,15 @@
   $green = new GPIO(27, "out", 3);
   $blue = new GPIO(17, "out", 1);
   $colorArray = str_split($default_color);
+
+  if (isset($_POST['set_color'])) {
+    $colorArray = str_split($_POST['clr']);
+    $default_color = $_POST['clr'];
+    print_r($_POST['clr']);
+  //  $red -> pwm_write(255 - hexdec($colorArray[0].$colorArray[1]));
+  //  $green -> pwm_write(255 - hexdec($colorArray[2].$colorArray[3]));
+  //  $blue -> pwm_write(255 - hexdec($colorArray[4].$colorArray[5]));
+  }
 
   print_r($default_color);
   print_r($colorArray);
@@ -37,7 +58,7 @@
  <!-- **************** -->
  <!-- JSCOLOR PICKER -->
  <!-- **************** -->
- <input type="button" class="jscolor" id="picker" onchange="update(this.jscolor)" value="<?php echo $default_color ?>">
+ <input type="button" class="jscolor" id="picker" onchange="update(this.jscolor)" onfocusout="apply()" value="<?php echo $default_color ?>">
 
 
  <!-- **************** -->
@@ -48,28 +69,10 @@
     <input type="submit" id="smt" name="set_color" hidden>
     <input type="submit" name="set_default" id="set_default" value="Set as Default">
 
-<?php
-  if (isset($_POST['set_default'])) {
-    $db = new MyDB();
-    $sql = "UPDATE prep".
-	    " SET Value = '". $_POST['clr']. "'". 
-	    " WHERE Name = 'default_color'";
-    $db -> query($sql);
-    $db -> close();
-    header("Refresh:0");
-  } else {
-    echo "false";
-  }
-?>
+
+
 
   </form>
-
-<?php
-  //$d = exec("python3 /var/www/html/LedController.py ". $default_color);
-  system("python3 /var/www/html/LedController.py 00FF00");
-  exec("./LedController.py 00FF00");
-?>
-
 
   <!-- **************** -->
   <!-- CHARTS -->
